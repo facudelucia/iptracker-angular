@@ -1,0 +1,19 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 12px 12px 50px 0 #999 0e, -8px -8px 50px 0 #1a1a1a 30;
+}
+@media (min-width: 991px) {
+    .card {
+        flex-direction: row;
+        width: 800px;
+        padding: 2rem;
+        margin: 2rem auto;
+        box-sizing: border-box;
+   }
+}

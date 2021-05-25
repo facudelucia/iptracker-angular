@@ -1,0 +1,40 @@
+body, h1, h2, h3, h4, h5, h6, p, a, address, cite, img, form {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+.main-container {
+   height: 100%;
+   padding: 0 1rem;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   overflow: hidden;
+}
+.main-container .bg {
+   height: 200px;
+   width: 100%;
+   position: absolute;
+   z-index: -1;
+   top: 0;
+}
+.main-container .title {
+   color: #fff;
+   font-size: 22px;
+   padding-top: 0.5rem;
+   margin-bottom: 1.2rem;
+}
+.main-container .ip-info {
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+app-navbar, app-info-container {
+   width: 100%;
+}

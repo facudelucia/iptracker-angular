@@ -1,0 +1,7 @@
+<div class="card">
+  <app-info-item *ngIf="!error && locationExists" title="ip address" [subtitle]="ip"></app-info-item>
+  <app-info-item *ngIf="!error && locationExists" title="location"
+    [subtitle]="location.country + ', ' + location.region + ', ' + location.postalCode"></app-info-item>
+  <app-info-item *ngIf="!error && locationExists" title="city" [subtitle]="location.city"></app-info-item>
+  <app-info-item *ngIf="error" title="Error" [subtitle]="msgError"></app-info-item>
+</div>
