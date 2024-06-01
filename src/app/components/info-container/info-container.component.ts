@@ -1,6 +1,5 @@
-import { AppState } from './../../app.reducer';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { LocationClass } from 'src/app/interfaces/ilocation.interface';
 import { GeoService } from 'src/app/services/geo.service';
 
 @Component({
@@ -10,32 +9,29 @@ import { GeoService } from 'src/app/services/geo.service';
 })
 export class InfoContainerComponent implements OnInit {
 
-  location!: any
-  locationExists: boolean = false
-  ip!: any
-  error: boolean = false
-  msgError: string = 'Pruebe con otra direccion IP'
-  constructor(public _geoApi: GeoService, private store: Store<AppState>) { }
+  public location: LocationClass = this.geoService.defaultLocation
+  public locationExists: boolean = false
+  public ip: string = ''
+  public error: boolean = false
+  public msgError: string = 'Pruebe con otra direccion IP'
+
+  constructor(private geoService: GeoService) { }
 
   ngOnInit(): void {
     this.locationExists = false
-    this.store.select('location')
-      .subscribe(resp => {
-        if (resp.country == 'ZZ') {
-          this.error = true
-          return
-        }
-        this.location = resp
-        if (Object.keys(resp).length) {
-          this.error = false
-          this.locationExists = true
-        } else {
-          this.error = false
-          this.locationExists = false
-        }
-      })
-    this.store.select('ip')
-      .subscribe(resp => this.ip = resp)
+    this.geoService.location$.subscribe((location: LocationClass) => {
+      this.location = location
+      if (Object.keys(location).length) {
+        this.error = false
+        this.locationExists = true
+      } else {
+        this.error = false
+        this.locationExists = false
+      }
+    })
+    this.geoService.ip$.subscribe(ip => {
+      this.ip = ip
+    })
   }
 
 }

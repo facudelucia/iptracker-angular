@@ -1,5 +1,3 @@
-import { appReducers } from './app.reducer';
-
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -11,7 +9,7 @@ import { InfoContainerComponent } from './components/info-container/info-contain
 import { InfoItemComponent } from './components/info-item/info-item.component';
 import { HttpClientModule } from '@angular/common/http'
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { StoreModule } from '@ngrx/store';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,8 +22,7 @@ import { StoreModule } from '@ngrx/store';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    LeafletModule,
-    StoreModule.forRoot(appReducers)
+    LeafletModule
   ],
   providers: [],
   bootstrap: [AppComponent]

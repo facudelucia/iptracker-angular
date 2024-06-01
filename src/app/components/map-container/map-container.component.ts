@@ -1,7 +1,7 @@
-import { AppState } from './../../app.reducer';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import * as L from 'leaflet'
+import { LocationClass } from 'src/app/interfaces/ilocation.interface';
+import { GeoService } from 'src/app/services/geo.service';
 
 @Component({
   selector: 'app-map-container',
@@ -9,29 +9,28 @@ import * as L from 'leaflet'
   styleUrls: ['./map-container.component.css'],
 })
 export class MapContainerComponent implements OnInit {
-  long!: any;
-  lat!: any;
+  long!: number;
+  lat!: number;
   map!: L.Map;
   loading: boolean = true
-  constructor(private store: Store<AppState>) { }
+  constructor(private geoService: GeoService) { }
 
   ngOnInit() {
     this.loading = true
-    this.store.select('location')
-      .subscribe(resp => {
-        this.long = resp.lng
-        this.lat = resp.lat
-        if (Object.keys(resp).length) {
-          this.loading = false
-          if (this.map) {
-            this.map.remove()
-            this.createMap();
-          } else {
-            this.createMap();
-          }
-
+    this.geoService.location$.subscribe((location: LocationClass) => {
+      this.long = location.lng
+      this.lat = location.lat
+      if (Object.keys(location).length) {
+        this.loading = false
+        if (this.map) {
+          this.map.remove()
+          this.createMap();
+        } else {
+          this.createMap();
         }
-      })
+
+      }
+    })
   }
 
 
@@ -49,14 +48,14 @@ export class MapContainerComponent implements OnInit {
 
   configMap() {
     L.tileLayer(
-      `https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZmFjdWRlbHVjaWEiLCJhIjoiY2twMnozYmZhMTRydjJ0cHEyM25meDJsMCJ9.pPssLZmNbxFCZlzWXyRA-Q`,
+      `https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZmFjdWRlbHVjaWEiLCJhIjoiY2xlYW4xZmRvMGRuczN3cHBjaXQ3YjEybSJ9.Nxhst_oPOQ3EJy57CEHD5g`,
       {
         maxZoom: 18,
         noWrap: true,
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1,
-        accessToken: 'pk.eyJ1IjoiZmFjdWRlbHVjaWEiLCJhIjoiY2twMnozYmZhMTRydjJ0cHEyM25meDJsMCJ9.pPssLZmNbxFCZlzWXyRA-Q',
+        accessToken: 'pk.eyJ1IjoiZmFjdWRlbHVjaWEiLCJhIjoiY2xlYW4xZmRvMGRuczN3cHBjaXQ3YjEybSJ9.Nxhst_oPOQ3EJy57CEHD5g',
       }
     ).addTo(this.map);
   }

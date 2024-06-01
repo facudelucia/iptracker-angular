@@ -1,9 +1,6 @@
-import { setLocation } from './location/location.actions';
-import { AppState } from './app.reducer';
 import { GeoService } from 'src/app/services/geo.service';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { setIp } from './ip/ip.actions';
+import { ILocation, IP } from './interfaces/ilocation.interface';
 
 @Component({
   selector: 'app-root',
@@ -11,28 +8,31 @@ import { setIp } from './ip/ip.actions';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'ipTracker';
-  constructor(private geoService: GeoService, private store: Store<AppState>) {
+  title: string = 'ipTracker';
+
+  constructor(private geoService: GeoService) {
 
   }
+
   ngOnInit() {
     this.geoService.getInfoLocation()
-      .subscribe((resp: any) => {
+      .subscribe((resp: IP) => {
         this.geoService.getLocation(resp.ip)
-          .subscribe(resp => {
-            this.store.dispatch(setLocation(resp))
-            this.store.dispatch(setIp(resp))
+          .subscribe((resp: ILocation) => {
+            this.geoService.setLocation(resp.location)
+            this.geoService.setIp(resp.ip)
           })
 
       })
   }
-  prueba(event: any) {
+
+  prueba(event: string) {
     if (!isNaN(Number(event)) || event.trim().length < 0) {
       return
     }
     this.geoService.getLocation(event)
       .subscribe(resp => {
-        this.store.dispatch(setLocation(resp))
+        this.geoService.setLocation(resp.location)
       })
   }
 }
